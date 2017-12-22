@@ -1,0 +1,52 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "apollo-test-utils": "^0.3.2",
+    "babel-preset-kyt-react": "0.2.0",
+    "chart.js": "^2.6.0",
+    "compression": "1.6.2",
+    "express": "4.15.3",
+    "express-graphql": "^0.6.7",
+    "graphql": "^0.10.5",
+    "graphql-tools": "^1.2.2",
+    "kyt": "0.8.0",
+    "mysql2": "^1.4.1",
+    "react": "15.3.0",
+    "react-apollo": "^1.4.15",
+    "react-bootstrap": "^0.31.2",
+    "react-chartjs-2": "^2.6.1",
+    "react-dom": "15.3.0",
+    "react-icons": "^2.2.5",
+    "react-router": "2.6.1",
+    "react-sidenav": "^2.1.2",
+    "sequelize": "^4.7.3"
+  },
+  "devDependencies": {
+    "enzyme": "2.4.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.0.3",
+    "react-addons-test-utils": "15.3.0"
+  },
+  "scripts": {
+    "dev": "kyt dev",
+    "build": "kyt build",
+    "start": "node build/server/main.js",
+    "proto": "kyt proto",
+    "test": "kyt test",
+    "test-watch": "kyt test -- --watch",
+    "test-coverage": "kyt test -- --coverage",
+    "test-staged": "kyt test -- -o",
+    "lint": "npm run lint-script && npm run lint-style",
+    "lint-script": "kyt lint-script",
+    "lint-style": "kyt lint-style",
+    "lint-staged": "lint-staged",
+    "precommit": "npm run lint-staged && npm run test-staged",
+    "update-schema": "babel-node src/server/updateSchema.js",
+    "kyt:help": "kyt --help"
+  }
+}
