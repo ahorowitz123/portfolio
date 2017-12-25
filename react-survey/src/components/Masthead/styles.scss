@@ -1,0 +1,14 @@
+.navbar {
+  background-color: #31555f;
+  border-color: #31555f;
+  margin-bottom: 15px;
+  border-radius: 0;
+
+  a {
+    color: #fff !important;
+
+    &:hover {
+      color: #73939a !important;
+    }
+  }
+}

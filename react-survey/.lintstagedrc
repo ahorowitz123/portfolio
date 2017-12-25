@@ -1,0 +1,6 @@
+{
+  "src/**/*.js": [
+    "lint-script",
+  ],
+  "src/**/*.{css,scss}": "lint-style"
+}
