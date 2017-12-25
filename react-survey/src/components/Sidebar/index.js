@@ -6,6 +6,7 @@ import TiInputCheckedOutline from 'react-icons/lib/ti/input-checked-outline';
 
 import styles from './styles.scss';
 
+// Sidebar component for the shell
 const Sidebar = () =>
   <div>
     <div className={styles.sidebar}>

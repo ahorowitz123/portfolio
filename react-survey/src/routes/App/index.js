@@ -5,6 +5,9 @@ import styles from './styles.scss';
 import Sidebar from '../../components/Sidebar';
 import Masthead from '../../components/Masthead';
 
+// App component for the shell of the survey program
+// Contains Masthead and Sidebar components and uses
+// Bootstap grid to layout the child component
 function App({ children }) {
   return (
     <div className={styles.app}>

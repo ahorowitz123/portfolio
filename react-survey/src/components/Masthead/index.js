@@ -3,6 +3,7 @@ import Link from 'react-router/lib/Link';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import styles from './styles.scss';
 
+// Masthead component using the navbar bootstrap component
 function Masthead() {
   return (
     <Navbar collapseOnSelect className={styles.navbar}>

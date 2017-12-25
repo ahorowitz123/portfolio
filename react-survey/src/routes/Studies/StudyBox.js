@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import { Pie } from 'react-chartjs-2';
 import styles from './styles.scss';
 
+// StudyBox component to be used in the Studies component.
+// Takes in study data from database
 function StudyBox({ title, surveys, participants, completed, daysRemaining }) {
   const remaining = 100 - completed;
   const pieData = {

@@ -3,6 +3,7 @@ import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+// Test to add new user to database using GraphQL mutation
 function AddUser({ mutate }) {
   const handleOnClick = () => {
     mutate({

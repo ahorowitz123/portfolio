@@ -4,7 +4,9 @@ import { withApollo } from 'react-apollo';
 import ApolloClient from 'apollo-client';
 import gql from 'graphql-tag';
 
+// Login component for the login page
 function Login({ client }) {
+  // function to verify user information on click
   const handleOnClick = () => {
     client
       .query({

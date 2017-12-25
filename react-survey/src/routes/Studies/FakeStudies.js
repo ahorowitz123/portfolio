@@ -1,3 +1,4 @@
+// fake studies for testing without database
 const fakeStudies = [
   {
     title: 'Round 1 Student Feedback',
