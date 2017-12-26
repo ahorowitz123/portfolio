@@ -1,13 +1,9 @@
 # Survey Platform
-## 3rd Iteration
 
-# **Work in Progress**
-
-Uses React for the front-end, MySQL Database for the backend, Sequelize and GraphQL for the database API and React-Apollo to connect GraphQL to React.
+This platform allows for creation and distribution of surveys, as well as analysis of survey data and hierarchical analysis over a user set. It is in its third iteration. The first iteration was developed primarily with PHP. The second was developed in AngularJS. The current one uses React for the front-end, MySQL Database for the backend, Sequelize and GraphQL for the database API and React-Apollo to connect GraphQL to React. **This version is currently a work in progress.*
 
 ## To run:
-Use 'npm run dev'
+Use 'npm run dev' from the command line.
 
 ## Database Information:
-The database login information had to be changed for privacy reasons. If you would like to try with a working database,
-enter the login information in server/database.js.
+The database login information had to be changed for privacy reasons. If you would like to run this with a working database, enter the login information of the database into server/database.js.
