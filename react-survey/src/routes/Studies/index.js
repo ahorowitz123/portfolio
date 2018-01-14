@@ -6,7 +6,6 @@ import gql from 'graphql-tag';
 import StudyBox from './StudyBox';
 import styles from './styles.scss';
 
-// Component for studies page. Uses the StudyBox component
 function Studies({ data: { loading, error, studies } }) {
   if (loading) {
     return <p>Loading ...</p>;

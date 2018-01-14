@@ -1,12 +1,20 @@
 import React, { PropTypes } from 'react';
-import { PageHeader, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { withApollo } from 'react-apollo';
 import ApolloClient from 'apollo-client';
 import gql from 'graphql-tag';
+import { Link } from 'react-router';
+import {
+  Grid,
+  Col,
+  Row,
+  PageHeader,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Button,
+} from 'react-bootstrap';
 
-// Login component for the login page
 function Login({ client }) {
-  // function to verify user information on click
   const handleOnClick = () => {
     client
       .query({
@@ -19,31 +27,45 @@ function Login({ client }) {
       })
       .then(output => {
         if (output.data.login) {
-          window.location = '/studies';
+          window.location = '/LoggedIn';
         }
       });
   };
 
   return (
-    <div>
+    <Grid>
       <PageHeader>Welcome to ArtsResearch!</PageHeader>
       <form>
         <FormGroup controlId="login">
-          <ControlLabel>Add User</ControlLabel>
-          <FormControl
-            type="text"
-            placeholder="Username"
-            inputRef={ref => {
-              this.input = ref;
-            }}
-          />
+          <Row>
+            <Col xs={4}>
+              <ControlLabel>Login</ControlLabel>
+              <FormControl
+                type="text"
+                placeholder="Username"
+                inputRef={ref => {
+                  this.input = ref;
+                }}
+              />
+            </Col>
+          </Row>
         </FormGroup>
-
-        <Button type="button" onClick={handleOnClick}>
-          Login
-        </Button>
+        <Row>
+          <Col xs={4}>
+            <Button type="button" onClick={handleOnClick}>
+              Login
+            </Button>
+          </Col>
+        </Row>
       </form>
-    </div>
+      <Row>
+        <Col xs={4}>
+          <Link to="/signup">
+            <Button bsStyle="link">Sign Up!</Button>
+          </Link>
+        </Col>
+      </Row>
+    </Grid>
   );
 }
 

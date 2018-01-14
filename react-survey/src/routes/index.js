@@ -7,8 +7,24 @@ import App from './App';
 // chunking assets. Check out the following for more:
 // https://webpack.js.org/guides/migrating/#code-splitting-with-es2015
 
+const importLoggedInApp = (nextState, cb) => {
+  import(/* webpackChunkName: "home" */ './LoggedInApp')
+    .then(module => cb(null, module.default))
+    .catch(e => {
+      throw e;
+    });
+};
+
 const importLogin = (nextState, cb) => {
   import(/* webpackChunkName: "home" */ './Login')
+    .then(module => cb(null, module.default))
+    .catch(e => {
+      throw e;
+    });
+};
+
+const importSignup = (nextState, cb) => {
+  import(/* webpackChunkName: "home" */ './Signup')
     .then(module => cb(null, module.default))
     .catch(e => {
       throw e;
@@ -44,9 +60,12 @@ const importMutationTests = (nextState, cb) => {
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute getComponent={importLogin} />
-    <Route path="studies" getComponent={importStudies} />
-    <Route path="tools" getComponent={importTools} />
-    <Route path="mutations" getComponent={importMutationTests} />
+    <Route path="signup" getComponent={importSignup} />
+    <Route path="loggedIn" getComponent={importLoggedInApp}>
+      <IndexRoute getComponent={importStudies} />
+      <Route path="tools" getComponent={importTools} />
+      <Route path="mutations" getComponent={importMutationTests} />
+    </Route>
   </Route>
 );
 
@@ -55,6 +74,7 @@ const routes = (
 // https://github.com/gaearon/react-hot-loader/issues/288
 if (module.hot) {
   require('./Login'); // eslint-disable-line global-require
+  require('./Signup'); // eslint-disable-line global-require
   require('./Studies'); // eslint-disable-line global-require
   require('./Tools'); // eslint-disable-line global-require
   require('./MutationTests'); // eslint-disable-line global-require

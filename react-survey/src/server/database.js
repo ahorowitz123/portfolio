@@ -10,6 +10,10 @@ const User = con.define('user', {
     type: Sequelize.TEXT,
     allowNull: false,
   },
+  password: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
 });
 
 const Study = con.define('study', {

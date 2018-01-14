@@ -1,3 +1,4 @@
 {
-  "presets": ["kyt-react"],
+  "presets": ["babel-preset-kyt-react"],
+  "plugins": ["babel-plugin-transform-class-properties"]
 }

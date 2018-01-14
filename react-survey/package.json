@@ -8,6 +8,7 @@
   "dependencies": {
     "apollo-test-utils": "^0.3.2",
     "babel-preset-kyt-react": "0.2.0",
+    "bcrypt": "^1.0.3",
     "chart.js": "^2.6.0",
     "compression": "1.6.2",
     "express": "4.15.3",
@@ -27,6 +28,7 @@
     "sequelize": "^4.7.3"
   },
   "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "enzyme": "2.4.1",
     "husky": "^0.14.3",
     "lint-staged": "^4.0.3",

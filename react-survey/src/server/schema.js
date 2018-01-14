@@ -9,6 +9,8 @@ import {
   GraphQLBoolean,
 } from 'graphql';
 
+import bcrypt from 'bcrypt';
+
 import Db from './database';
 
 /* eslint-disable no-use-before-define */
@@ -53,6 +55,9 @@ const userType = new GraphQLObjectType({
     username: {
       type: new GraphQLNonNull(GraphQLString),
     },
+    password: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
 });
 
@@ -66,6 +71,16 @@ const queryType = new GraphQLObjectType({
     users: {
       type: new GraphQLList(userType),
       resolve: () => Db.models.user.findAll(),
+    },
+    user: {
+      type: userType,
+      args: {
+        username: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
+      },
+      resolve: (root, { username }) =>
+        Db.models.user.findOne({ where: { username } }).then(user => user),
     },
     currentUser: {
       type: userType,
@@ -93,11 +108,16 @@ const queryType = new GraphQLObjectType({
 const addUser = {
   name: 'AddUser',
   description: 'Add a new user.',
-  type: userType,
+  type: new GraphQLNonNull(GraphQLString),
   args: {
     username: { type: new GraphQLNonNull(GraphQLString) },
+    password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve: (value, { username }) => Db.models.user.create({ username }).then(user => user),
+  resolve: (value, { username, password }) => {
+    const saltRounds = 10;
+    const hash = bcrypt.hashSync(password, saltRounds);
+    return Db.models.user.create({ username, password: hash }).then(user => user.username);
+  },
 };
 
 const mutationType = new GraphQLObjectType({
