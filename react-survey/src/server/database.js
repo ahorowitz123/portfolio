@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
 
-const con = new Sequelize('database', 'username', 'password', {
+const con = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
   dialect: 'mysql',
-  host: 'host',
+  host: process.env.DB_HOST,
 });
 
 const User = con.define('user', {

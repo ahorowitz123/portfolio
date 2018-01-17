@@ -7,10 +7,17 @@ import RouterContext from 'react-router/lib/RouterContext';
 import createMemoryHistory from 'react-router/lib/createMemoryHistory';
 import match from 'react-router/lib/match';
 import graphqlHTTP from 'express-graphql';
-import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
+import fetch from 'node-fetch';
+import jwt from 'express-jwt';
+import bodyParser from 'body-parser';
 import template from './template';
 import routes from '../routes';
 import Schema from './schema';
+import Db from './database';
 
 const clientAssets = require(KYT.ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
 const port = parseInt(KYT.SERVER_PORT, 10);
@@ -27,18 +34,25 @@ app.use(express.static(path.join(process.cwd(), KYT.PUBLIC_DIR)));
 
 app.use(
   '/graphql',
-  graphqlHTTP({
+  bodyParser.json(),
+  jwt({
+    secret: process.env.SECRET_KEY,
+    credentialsRequired: false,
+  }),
+  graphqlHTTP(req => ({
     schema: Schema,
     graphiql: true,
-  })
+    context: {
+      user: req.user
+        ? Db.models.user.findOne({ where: { id: req.user.id } })
+        : Promise.resolve(null),
+    },
+  }))
 );
 
-const networkInterface = createNetworkInterface({
-  uri: 'http://localhost:3000/graphql',
-});
-
 const client = new ApolloClient({
-  networkInterface,
+  link: createHttpLink({ uri: 'http://localhost:3000/graphql', fetch }),
+  cache: new InMemoryCache(),
 });
 
 // Setup server side routing.

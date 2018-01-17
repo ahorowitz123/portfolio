@@ -1,6 +1,6 @@
 type Mutation {
-  # Add a new user.
-  addUser(username: String!, password: String!): String!
+  """Add a new user."""
+  addUser(username: String!, password: String!): User!
 }
 
 type Query {
@@ -11,7 +11,7 @@ type Query {
   login(username: String!): Boolean!
 }
 
-# A user study.
+"""A user study."""
 type Study {
   id: ID!
   title: String!
@@ -22,9 +22,9 @@ type Study {
   daysRemaining: Int!
 }
 
-# A user.
+"""A user."""
 type User {
   id: ID!
   username: String!
-  password: String!
+  jwt: String!
 }

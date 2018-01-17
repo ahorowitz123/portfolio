@@ -10,12 +10,11 @@ import {
 } from 'graphql';
 
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import Db from './database';
 
 /* eslint-disable no-use-before-define */
-
-let User;
 
 const studyType = new GraphQLObjectType({
   name: 'Study',
@@ -55,7 +54,7 @@ const userType = new GraphQLObjectType({
     username: {
       type: new GraphQLNonNull(GraphQLString),
     },
-    password: {
+    jwt: {
       type: new GraphQLNonNull(GraphQLString),
     },
   },
@@ -66,7 +65,13 @@ const queryType = new GraphQLObjectType({
   fields: {
     studies: {
       type: new GraphQLList(studyType),
-      resolve: () => Db.models.study.findAll(),
+      resolve: (root, args, ctx) =>
+        ctx.user.then(user => {
+          if (!user) {
+            return Promise.reject('Unauthorized');
+          }
+          return Db.models.study.findAll();
+        }),
     },
     users: {
       type: new GraphQLList(userType),
@@ -82,10 +87,6 @@ const queryType = new GraphQLObjectType({
       resolve: (root, { username }) =>
         Db.models.user.findOne({ where: { username } }).then(user => user),
     },
-    currentUser: {
-      type: userType,
-      resolve: () => User,
-    },
     login: {
       type: new GraphQLNonNull(GraphQLBoolean),
       args: {
@@ -96,7 +97,6 @@ const queryType = new GraphQLObjectType({
       resolve: (root, { username }) =>
         Db.models.user.findOne({ where: { username } }).then(user => {
           if (user) {
-            User = user;
             return true;
           }
           return false;
@@ -108,16 +108,25 @@ const queryType = new GraphQLObjectType({
 const addUser = {
   name: 'AddUser',
   description: 'Add a new user.',
-  type: new GraphQLNonNull(GraphQLString),
+  type: new GraphQLNonNull(userType),
   args: {
     username: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve: (value, { username, password }) => {
-    const saltRounds = 10;
-    const hash = bcrypt.hashSync(password, saltRounds);
-    return Db.models.user.create({ username, password: hash }).then(user => user.username);
-  },
+  resolve: (value, { username, password }, ctx) =>
+    Db.models.user.findOne({ where: { username } }).then(existing => {
+      if (!existing) {
+        const saltRounds = 10;
+        const hash = bcrypt.hashSync(password, saltRounds);
+        return Db.models.user.create({ username, password: hash }).then(user => {
+          user.jwt = jwt.sign({ id: user.id, username: user.username }, process.env.SECRET_KEY);
+          ctx.user = Promise.resolve(user);
+          return user;
+        });
+      }
+
+      return Promise.reject('username already exists');
+    }),
 };
 
 const mutationType = new GraphQLObjectType({
